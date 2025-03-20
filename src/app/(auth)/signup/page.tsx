@@ -5,13 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import {Eye, EyeOff} from '@/app/ui/icons'
-import {authenticate} from '@/app/actions/auth'
+import {register} from '@/app/actions/auth'
 import {IAuthState} from '@/types/auth'
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
   const [state, formAction] = useActionState<IAuthState | undefined, FormData>(
-    authenticate,
+    register,
     {
       message: null,
       success: false,
