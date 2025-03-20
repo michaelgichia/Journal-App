@@ -10,13 +10,14 @@ import {IAuthState} from '@/types/auth'
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
-  const [state, formAction] = useActionState<IAuthState | undefined, FormData>(
-    authenticate,
-    {
-      message: null,
-      success: false,
-    },
-  )
+  const [state, formAction, isPending] = useActionState<
+    IAuthState | undefined,
+    FormData
+  >(authenticate, {
+    message: null,
+    success: false,
+  })
+  console.log('[[Login]] isPending: ', isPending)
 
   return (
     <div className='flex min-h-screen'>
@@ -77,8 +78,9 @@ export default function Login() {
             <button
               type='submit'
               className='w-full py-3 px-4 bg-green-700 hover:bg-green-800 text-white font-medium rounded-md transition duration-200'
+              disabled={isPending}
             >
-              Login
+             Login{isPending && '...'}
             </button>
           </form>
           <div className='my-6 text-center text-sm text-gray-500'>

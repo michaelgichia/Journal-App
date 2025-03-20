@@ -1,6 +1,7 @@
 'use client'
 
-import {useState, useActionState} from 'react'
+import {useRouter} from 'next/navigation'
+import {useState, useActionState, useEffect} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -9,14 +10,22 @@ import {register} from '@/app/actions/auth'
 import {IAuthState} from '@/types/auth'
 
 export default function SignUp() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
-  const [state, formAction] = useActionState<IAuthState | undefined, FormData>(
+  const [state, formAction, isPending] = useActionState<IAuthState | undefined, FormData>(
     register,
     {
       message: null,
       success: false,
     },
   )
+
+  // Redirect when registration is successful
+  useEffect(() => {
+    if (state?.message === 'Successfully registered!') {
+      router.push('/dashboard') // Navigate to dashboard
+    }
+  }, [state, router])
 
   return (
     <div className='flex min-h-screen'>
@@ -107,8 +116,9 @@ export default function SignUp() {
             <button
               type='submit'
               className='w-full py-3 px-4 bg-green-700 hover:bg-green-800 text-white font-medium rounded-md transition duration-200'
+              disabled={isPending}
             >
-              Signup
+              Signup{isPending && '...'}
             </button>
           </form>
           <div className='my-6 text-center text-sm text-gray-500'>
