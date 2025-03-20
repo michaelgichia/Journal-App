@@ -41,7 +41,6 @@ export default function Form({categories}: IProps) {
             type='text'
             placeholder='Enter title'
             required
-            defaultValue="Coding"
             maxLength={100}
             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white'
           />
@@ -93,7 +92,6 @@ export default function Form({categories}: IProps) {
             <textarea
               id='content'
               name='content'
-              defaultValue="Lorem ipsum"
               required
               maxLength={5000}
               rows={10}
