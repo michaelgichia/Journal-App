@@ -1,7 +1,9 @@
 import Form from '@/app/ui/journals/create-form';
 import Breadcrumbs from '@/app/ui/journals/breadcrumbs';
+import { fetchCategories } from '@/app/db/journal';
 
 export default async function Page() {
+  const categories = await fetchCategories();
 
   return (
     <main>
@@ -15,7 +17,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form />
+      <Form categories={categories} />
     </main>
   );
 }

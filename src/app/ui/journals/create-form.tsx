@@ -5,8 +5,13 @@ import {useActionState} from 'react'
 
 import {createJournal, IState} from '@/app/actions/journals'
 import {Button} from '@/app/ui/button'
+import {Category} from '@/types/journal'
 
-export default function Form() {
+type IProps = {
+  categories: Category[]
+}
+
+export default function Form({categories}: IProps) {
   const initialState: IState = {message: null, errors: {}}
   const [state, formActions] = useActionState<IState | undefined>(
     createJournal,
@@ -39,9 +44,14 @@ export default function Form() {
             aria-describedby='category-error'
             className='peer block w-full px-4 py-2.5 cursor-pointer border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white placeholder:text-gray-500'
           >
-            <option value='' disabled>
+            <option disabled>
               Select a category
             </option>
+            {categories.map((category) => (
+              <option value={category.id} key={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
           <div id='journal-error' aria-live='polite' aria-atomic='true'>
             {state?.errors?.journalId &&
