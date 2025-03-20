@@ -24,6 +24,11 @@ export default function SignUp() {
       <div className='w-full lg:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24'>
         <div className='max-w-md mx-auto w-full'>
           <h1 className='text-3xl font-bold mb-10'>Get Started Now</h1>
+
+          {state && state.success && (
+            <div className='text-teal-500 text-sm'>{state?.message}</div>
+          )}
+
           <form action={formAction} className='space-y-6'>
             <div>
               <label htmlFor='name' className='block text-sm font-medium mb-2'>
@@ -100,7 +105,7 @@ export default function SignUp() {
               </label>
             </div>
 
-            {state && (
+            {state && !state.success && (
               <div className='text-red-500 text-sm'>{state?.message}</div>
             )}
 
