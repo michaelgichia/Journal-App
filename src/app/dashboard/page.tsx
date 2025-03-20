@@ -1,10 +1,7 @@
-import {auth} from '@/config/auth'
 import {Plus} from '@/app/ui/icons'
 import Link from 'next/link'
 
 export default async function Page() {
-  const session = await auth()
-  console.log({session})
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between'>

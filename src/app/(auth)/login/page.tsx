@@ -17,7 +17,6 @@ export default function Login() {
     message: null,
     success: false,
   })
-  console.log('[[Login]] isPending: ', isPending)
 
   return (
     <div className='flex min-h-screen'>

@@ -101,8 +101,7 @@ export async function register(
       message: 'Successfully registered!',
       success: true,
     }
-  } catch (error) {
-    console.error('Registration error:', error)
+  } catch  {
     return {success: false, message: 'Failed to register user'}
   }
 }

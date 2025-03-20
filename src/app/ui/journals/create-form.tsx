@@ -12,8 +12,8 @@ type IProps = {
 }
 
 export default function Form({categories}: IProps) {
-  const initialState: IState = {message: null, errors: {}}
-  const [state, formActions] = useActionState<IState | undefined>(
+  const initialState: IState = {message: null, errors: {}, success: null}
+  const [state, formActions, isPending] = useActionState<IState | undefined>(
     createJournal,
     initialState,
   )
@@ -21,6 +21,16 @@ export default function Form({categories}: IProps) {
   return (
     <form action={formActions}>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
+        {state?.success && state?.message && (
+          <div className='mb-4 p-4 rounded-md bg-green-50 text-green-700'>
+            {state.message}
+          </div>
+        )}
+        {!state?.success && state?.message && (
+          <div className='mb-4 p-4 rounded-md bg-red-50 text-red-700'>
+            {state.message}
+          </div>
+        )}
         <div className='mb-4'>
           <label htmlFor='title' className='block text-sm font-medium mb-2'>
             Title
@@ -31,9 +41,20 @@ export default function Form({categories}: IProps) {
             type='text'
             placeholder='Enter title'
             required
+            defaultValue="Coding"
+            maxLength={100}
             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white'
           />
+          <div id='title-error' aria-live='polite' aria-atomic='true'>
+            {state?.errors?.title &&
+              state.errors.title.map((error: string) => (
+                <p className='mt-2 text-sm text-red-500' key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
         </div>
+
         <div className='mb-4'>
           <label htmlFor='category' className='mb-2 block text-sm font-medium'>
             Select category
@@ -41,10 +62,11 @@ export default function Form({categories}: IProps) {
           <select
             id='category'
             name='categoryId'
+            required
             aria-describedby='category-error'
             className='peer block w-full px-4 py-2.5 cursor-pointer border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white placeholder:text-gray-500'
           >
-            <option disabled>
+            <option value='' disabled>
               Select a category
             </option>
             {categories.map((category) => (
@@ -53,9 +75,9 @@ export default function Form({categories}: IProps) {
               </option>
             ))}
           </select>
-          <div id='journal-error' aria-live='polite' aria-atomic='true'>
-            {state?.errors?.journalId &&
-              state.errors.journalId.map((error: string) => (
+          <div id='category-error' aria-live='polite' aria-atomic='true'>
+            {state?.errors?.categoryId &&
+              state.errors.categoryId.map((error: string) => (
                 <p className='mt-2 text-sm text-red-500' key={error}>
                   {error}
                 </p>
@@ -71,8 +93,20 @@ export default function Form({categories}: IProps) {
             <textarea
               id='content'
               name='content'
+              defaultValue="Lorem ipsum"
+              required
+              maxLength={5000}
+              rows={10}
               className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white'
             />
+          </div>
+          <div id='content-error' aria-live='polite' aria-atomic='true'>
+            {state?.errors?.content &&
+              state.errors.content.map((error: string) => (
+                <p className='mt-2 text-sm text-red-500' key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
       </div>
@@ -83,7 +117,9 @@ export default function Form({categories}: IProps) {
         >
           Cancel
         </Link>
-        <Button type='submit'>Create Journal</Button>
+        <Button type='submit' disabled={isPending}>
+          {isPending ? 'Creating Journal...' : 'Create Journal'}
+        </Button>
       </div>
     </form>
   )
