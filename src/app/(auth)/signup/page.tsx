@@ -24,11 +24,11 @@ export default function SignUp() {
       <div className='w-full lg:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24'>
         <div className='max-w-md mx-auto w-full'>
           <h1 className='text-3xl font-bold mb-10'>Get Started Now</h1>
-
           {state && state.success && (
-            <div className='text-teal-500 text-sm'>{state?.message}</div>
+            <div className='text-teal-500 text-sm mb-2 text-center'>
+              {state?.message}
+            </div>
           )}
-
           <form action={formAction} className='space-y-6'>
             <div>
               <label htmlFor='name' className='block text-sm font-medium mb-2'>
@@ -43,7 +43,6 @@ export default function SignUp() {
                 className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
               />
             </div>
-
             <div>
               <label htmlFor='email' className='block text-sm font-medium mb-2'>
                 Email address
@@ -57,7 +56,6 @@ export default function SignUp() {
                 className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
               />
             </div>
-
             <div className='relative'>
               <label
                 htmlFor='password'
@@ -88,7 +86,6 @@ export default function SignUp() {
                 </span>
               </button>
             </div>
-
             <div className='flex items-center'>
               <input
                 id='terms'
@@ -104,11 +101,9 @@ export default function SignUp() {
                 I agree to the terms & policy
               </label>
             </div>
-
             {state && !state.success && (
               <div className='text-red-500 text-sm'>{state?.message}</div>
             )}
-
             <button
               type='submit'
               className='w-full py-3 px-4 bg-green-700 hover:bg-green-800 text-white font-medium rounded-md transition duration-200'
