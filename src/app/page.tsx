@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import {ArrowRight} from './icons'
+
+import {ArrowRight} from '@/app/ui/icons'
 
 export default async function Home() {
   return (
