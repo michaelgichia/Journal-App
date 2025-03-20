@@ -36,7 +36,7 @@ export default function Login() {
                 type='email'
                 placeholder='Enter your email'
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800'
               />
             </div>
 
@@ -53,7 +53,7 @@ export default function Login() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder='••••••••••'
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800'
               />
               <button
                 type='button'
@@ -77,7 +77,7 @@ export default function Login() {
 
             <button
               type='submit'
-              className='w-full py-3 px-4 bg-green-700 hover:bg-green-800 text-white font-medium rounded-md transition duration-200'
+              className='w-full py-3 px-4 bg-teal-800 hover:bg-teal-800 text-white font-medium rounded-md transition duration-200'
               disabled={isPending}
             >
              Login{isPending && '...'}
@@ -89,7 +89,7 @@ export default function Login() {
           <div className='text-center'>
             <p className='text-sm text-gray-600'>
               Don’t have an account?{' '}
-              <Link href='/signup' className='text-green-600 hover:underline'>
+              <Link href='/signup' className='text-teal-600 hover:underline'>
                 Sign up
               </Link>
             </p>

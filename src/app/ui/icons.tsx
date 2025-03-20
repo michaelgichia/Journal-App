@@ -15,3 +15,7 @@ export const EyeOff = dynamic(() => import('react-feather').then((mod) => mod.Ey
 export const Power = dynamic(() => import('react-feather').then((mod) => mod.Power), {
   ssr: true,
 });
+
+export const Plus = dynamic(() => import('react-feather').then((mod) => mod.Plus), {
+  ssr: true,
+});

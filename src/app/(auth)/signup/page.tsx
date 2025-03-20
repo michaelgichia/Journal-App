@@ -34,7 +34,7 @@ export default function SignUp() {
         <div className='max-w-md mx-auto w-full'>
           <h1 className='text-3xl font-bold mb-10'>Get Started Now</h1>
           {state && state.success && (
-            <div className='text-teal-500 text-sm mb-2 text-center'>
+            <div className='text-teal-800 text-sm mb-2 text-center'>
               {state?.message}
             </div>
           )}
@@ -49,7 +49,7 @@ export default function SignUp() {
                 type='text'
                 placeholder='Enter your name'
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800'
               />
             </div>
             <div>
@@ -62,7 +62,7 @@ export default function SignUp() {
                 type='email'
                 placeholder='Enter your email'
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800'
               />
             </div>
             <div className='relative'>
@@ -78,7 +78,7 @@ export default function SignUp() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder='••••••••'
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                className='w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800'
               />
               <button
                 type='button'
@@ -101,7 +101,7 @@ export default function SignUp() {
                 name='terms'
                 type='checkbox'
                 required
-                className='h-4 w-4 text-green-600 focus:ring-green-500 border-green-300 rounded'
+                className='h-4 w-4 text-teal-600 focus:ring-teal-800 border-teal-300 rounded'
               />
               <label
                 htmlFor='terms'
@@ -115,7 +115,7 @@ export default function SignUp() {
             )}
             <button
               type='submit'
-              className='w-full py-3 px-4 bg-green-700 hover:bg-green-800 text-white font-medium rounded-md transition duration-200'
+              className='w-full py-3 px-4 bg-teal-800 hover:bg-teal-800 text-white font-medium rounded-md transition duration-200'
               disabled={isPending}
             >
               Signup{isPending && '...'}
@@ -127,7 +127,7 @@ export default function SignUp() {
           <div className='text-center'>
             <p className='text-sm text-gray-600'>
               Have an account?{' '}
-              <Link href='/login' className='text-green-600 hover:underline'>
+              <Link href='/login' className='text-teal-600 hover:underline'>
                 Sign In
               </Link>
             </p>
