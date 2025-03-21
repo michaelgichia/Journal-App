@@ -99,3 +99,21 @@ export async function updateJournal(
   revalidatePath('/dashboard')
   redirect('/dashboard')
 }
+
+export async function deleteJournal(id: string) {
+  const session = await auth()
+  const userId = session?.user?.id
+
+  try {
+    await sql`
+      DELETE FROM Journals
+      WHERE id = ${id} AND user_id = ${userId}
+    `
+  } catch (error) {
+    console.error('Failed to delete journal:', error)
+    return { success: false, message: 'Failed to delete journal' }
+  }
+
+  revalidatePath('/dashboard')
+  return { success: true, message: 'Journal deleted successfully' }
+}
