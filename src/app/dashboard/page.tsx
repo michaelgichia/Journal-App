@@ -6,6 +6,9 @@ import ListJournals from '@/app/ui/journals/list-journals'
 import {CardsSkeleton} from '@/app/ui/skeletons'
 import JournalSummaries from '@/app/ui/dashboard/journal-summaries'
 
+const NEXT_MONTH = new Date()
+NEXT_MONTH.setMonth(NEXT_MONTH.getMonth() + 1)
+
 function CreateJournal() {
   return (
     <div className='mt-4 flex items-center justify-end gap-2 md:mt-6 gap-4 mb-6'>
