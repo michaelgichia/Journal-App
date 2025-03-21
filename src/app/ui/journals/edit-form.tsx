@@ -3,23 +3,23 @@
 import Link from 'next/link'
 import {useActionState} from 'react'
 
-import {createJournal, IState} from '@/app/actions/journals'
+import {updateJournal, IState} from '@/app/actions/journals'
 import {Button} from '@/app/ui/button'
-import {Category} from '@/types/journal'
+import {Category, Journal} from '@/types/journal'
 
 type IProps = {
   categories: Category[]
+  journal: Journal
 }
 
-export default function Form({categories}: IProps) {
+export default function EditJournalForm({categories, journal}: IProps) {
   const initialState: IState = {message: null, errors: {}, success: null}
-  const [state, formAction, isPending] = useActionState<IState | undefined>(
-    createJournal,
-    initialState,
-  )
+  const updateJournalWithId = updateJournal.bind(null, journal.id)
+  const [state, formAction, isPending] = useActionState(updateJournalWithId, initialState)
 
   return (
     <form action={formAction}>
+      <input type='hidden' name='id' value={journal.id} />
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {state?.success && state?.message && (
           <div className='mb-4 p-4 rounded-md bg-green-50 text-green-700'>
@@ -42,6 +42,7 @@ export default function Form({categories}: IProps) {
             placeholder='Enter title'
             required
             maxLength={100}
+            defaultValue={journal.title}
             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white'
           />
           <div id='title-error' aria-live='polite' aria-atomic='true'>
@@ -62,6 +63,7 @@ export default function Form({categories}: IProps) {
             id='category'
             name='categoryId'
             required
+            defaultValue={journal.category_id}
             aria-describedby='category-error'
             className='peer block w-full px-4 py-2.5 cursor-pointer border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white placeholder:text-gray-500'
           >
@@ -95,6 +97,7 @@ export default function Form({categories}: IProps) {
               required
               maxLength={5000}
               rows={10}
+              defaultValue={journal.content}
               className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-800 bg-white'
             />
           </div>
@@ -116,7 +119,7 @@ export default function Form({categories}: IProps) {
           Cancel
         </Link>
         <Button type='submit' disabled={isPending}>
-          {isPending ? 'Creating Journal...' : 'Create Journal'}
+          {isPending ? 'Updating Journal...' : 'Update Journal'}
         </Button>
       </div>
     </form>

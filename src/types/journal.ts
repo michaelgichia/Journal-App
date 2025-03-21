@@ -6,6 +6,7 @@ export type Journal = {
   updatedAt: string
   userId: string
   category: string
+  category_id: string
 }
 
 export type Category = {

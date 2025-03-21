@@ -35,3 +35,23 @@ export async function fetchJournal() {
     throw new Error('Failed to fetch all journals.');
   }
 }
+
+export async function fetchJournalById(id: string) {
+  try {
+    const journal = await sql<Journal>`
+      SELECT
+        je.id,
+        je.title,
+        je.content,
+        je.category_id,
+        c.name AS "category",
+        je.created_at AS "createdAt"
+      FROM Journals je
+      JOIN Categories c ON je.category_id = c.id
+      WHERE je.id = ${id}
+    `;
+    return journal.rows[0];
+  } catch {
+    throw new Error('Failed to fetch journal.');
+  }
+}
