@@ -13,7 +13,7 @@ type IProp = {
   journal: Journal
 }
 
-const formattedDate = (createdAt: Date) => format(createdAt, 'do MM yy')
+const formattedDate = (createdAt: Date) => format(createdAt, 'MMM do, yyyy')
 
 export default function Card({journal}: IProp) {
   const [showConfirm, setShowConfirm] = useState(false)
@@ -24,18 +24,18 @@ export default function Card({journal}: IProp) {
   })
 
   return (
-    <div className='bg-white rounded-md shadow-md border border-[#f6f3ee] flex flex-col relative group'>
+    <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative group min-h-[200px] flex flex-col'>
       {/* Options Menu Button */}
-      <div className='absolute top-3 right-3 z-10'>
-        <button className='p-1 rounded-full hover:bg-[#f6f3ee] group-hover:opacity-100 opacity-0 transition-opacity'>
+      <div className='absolute top-3 right-3 z-10 group/menu'>
+        <button className='p-1 rounded-full hover:bg-gray-100'>
           <MoreVertical className='h-5 w-5 text-gray-500' />
         </button>
 
         {/* Dropdown Menu */}
-        <div className='absolute -right-1 top-5 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-20 invisible group-hover:visible'>
+        <div className='absolute -right-1 top-5 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-20 invisible group-hover/menu:visible'>
           <Link
             href={`/dashboard/journals/${journal.id}/edit`}
-            className='block w-full text-left px-4 py-2 hover:bg-[#f6f3ee]'
+            className='block w-full text-left px-4 py-2 hover:bg-gray-50'
           >
             Edit
           </Link>
@@ -48,7 +48,7 @@ export default function Card({journal}: IProp) {
               <button
                 onClick={() => setShowConfirm(true)}
                 disabled={isPending}
-                className='block w-full text-left px-4 py-2 hover:bg-[#f6f3ee] text-red-600 disabled:opacity-50'
+                className='block w-full text-left px-4 py-2 hover:bg-gray-50 text-red-600 disabled:opacity-50'
               >
                 {isPending ? 'Deleting...' : 'Delete'}
               </button>
@@ -57,21 +57,30 @@ export default function Card({journal}: IProp) {
         </div>
       </div>
 
-      <Link
-        href={`/dashboard/journals/${journal.id}`}
-        className='flex-1 flex flex-col'
-      >
-        <div className='p-6 flex-1 flex min-h-[160px]'>
-          <h2 className='text-2xl font-medium mb-2 pr-8'>{journal.title}</h2>
+      <div className='flex-1'>
+        <Link href={`/dashboard/journals/${journal.id}`}>
+          <h2 className='text-xl font-medium text-gray-900 mb-2 pr-8 hover:text-teal-700'>
+            {journal.title}
+          </h2>
+        </Link>
+        <div>
+          <p className='text-gray-600 text-sm line-clamp-4 mb-1'>{journal.content}</p>
+          <Link
+            href={`/dashboard/journals/${journal.id}`}
+            className='text-sm text-teal-600 hover:text-teal-700 hover:underline underline-offset-4'
+          >
+            Read More
+          </Link>
         </div>
-        <div className='bg-[#f6f3ee] p-3 flex justify-between items-center rounded-b-md text-sm'>
-          <div className='text-zinc-700 font-medium'>{journal.category}</div>
-          <div className='flex items-center text-zinc-700'>
-            <Calendar className='h-3 w-3 mr-1.5' />
-            <span>{formattedDate(journal.createdAt)}</span>
-          </div>
+      </div>
+
+      <div className='flex items-center justify-between text-xs text-gray-500 mt-4 pt-2 border-t border-gray-100'>
+        <span className='font-medium'>{journal.category}</span>
+        <div className='flex items-center'>
+          <Calendar className='h-4 w-4 mr-1.5' />
+          <span className='font-medium'>{formattedDate(journal.createdAt)}</span>
         </div>
-      </Link>
+      </div>
     </div>
   )
 }
