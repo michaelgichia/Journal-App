@@ -19,3 +19,11 @@ export const Power = dynamic(() => import('react-feather').then((mod) => mod.Pow
 export const Plus = dynamic(() => import('react-feather').then((mod) => mod.Plus), {
   ssr: true,
 });
+
+export const Calendar = dynamic(() => import('react-feather').then((mod) => mod.Calendar), {
+  ssr: true,
+});
+
+export const MoreVertical = dynamic(() => import('react-feather').then((mod) => mod.MoreVertical), {
+  ssr: true,
+});
