@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import ListJournals from '@/app/ui/journals/list-journals'
 import {CardsSkeleton} from '@/app/ui/skeletons'
+import JournalSummaries from '@/app/ui/dashboard/journal-summaries'
 
 function CreateJournal() {
   return (
@@ -27,6 +28,12 @@ export default async function Page() {
       </div>
       <div className='max-w-7xl mx-auto'>
         <CreateJournal />
+        <JournalSummaries
+          dateRange={{
+            startDate: new Date('2025-01-20T23:34:51.366Z'),
+            endDate: new Date('2025-03-20T23:34:51.366Z'),
+          }}
+        />
         <Suspense fallback={<CardsSkeleton />}>
           <ListJournals />
         </Suspense>

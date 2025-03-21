@@ -27,3 +27,15 @@ export const Calendar = dynamic(() => import('react-feather').then((mod) => mod.
 export const MoreVertical = dynamic(() => import('react-feather').then((mod) => mod.MoreVertical), {
   ssr: true,
 });
+
+export const Inbox = dynamic(() => import('react-feather').then((mod) => mod.Inbox), {
+  ssr: true,
+});
+
+export const TrendingUp = dynamic(() => import('react-feather').then((mod) => mod.TrendingUp), {
+  ssr: true,
+});
+
+export const Layers = dynamic(() => import('react-feather').then((mod) => mod.Layers), {
+  ssr: true,
+});
