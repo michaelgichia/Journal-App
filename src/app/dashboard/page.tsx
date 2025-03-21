@@ -1,7 +1,13 @@
+import { Suspense } from 'react';
 import {Plus} from '@/app/ui/icons'
 import Link from 'next/link'
 
+import ListJournals from '@/app/ui/journals/list-journals';
+import { CardsSkeleton } from '@/app/ui/skeletons';
+
 export default async function Page() {
+
+
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between'>
@@ -15,6 +21,11 @@ export default async function Page() {
           <span className='hidden md:block'>Create Journal</span>{' '}
           <Plus className='h-5 md:ml-4' />
         </Link>
+      </div>
+      <div className='mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8'>
+        <Suspense fallback={<CardsSkeleton />}>
+          <ListJournals />
+        </Suspense>
       </div>
     </div>
   )
