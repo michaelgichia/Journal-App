@@ -2,7 +2,7 @@ export type Journal = {
   id: string
   title: string
   content: string
-  createdAt: string
+  createdAt: Date
   updatedAt: string
   userId: string
   category: string

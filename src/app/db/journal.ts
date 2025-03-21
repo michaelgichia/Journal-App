@@ -24,7 +24,7 @@ export async function fetchJournal() {
         je.title,
         je.content,
         je.category_id,
-        c.name AS "categoryName",
+        c.name AS "category",
         je.created_at AS "createdAt"
       FROM Journals je
       JOIN Categories c ON je.category_id = c.id

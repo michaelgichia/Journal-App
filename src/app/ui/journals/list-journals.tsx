@@ -4,10 +4,8 @@ import Card from '@/app/ui/journals/card'
 
 export default async function ListJournals() {
   const journals = await fetchJournal()
-  console.log('[[journals]]', journals)
-
   return (
-    <div className='mt-6 flow-root'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
       {journals.map((journal) => (
         <Card key={journal.id} journal={journal} />
       ))}
