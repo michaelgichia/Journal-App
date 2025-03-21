@@ -115,5 +115,4 @@ export async function deleteJournal(id: string) {
   }
 
   revalidatePath('/dashboard')
-  return { success: true, message: 'Journal deleted successfully' }
 }
