@@ -24,10 +24,10 @@ export default function Card({journal}: IProp) {
   })
 
   return (
-    <div className='bg-white rounded-md shadow-md border border-[#f6f3ee] flex flex-col relative'>
+    <div className='bg-white rounded-md shadow-md border border-[#f6f3ee] flex flex-col relative group'>
       {/* Options Menu Button */}
-      <div className='absolute top-3 right-3 z-10 group'>
-        <button className='p-1 rounded-full hover:bg-[#f6f3ee]'>
+      <div className='absolute top-3 right-3 z-10'>
+        <button className='p-1 rounded-full hover:bg-[#f6f3ee] group-hover:opacity-100 opacity-0 transition-opacity'>
           <MoreVertical className='h-5 w-5 text-gray-500' />
         </button>
 
@@ -57,16 +57,21 @@ export default function Card({journal}: IProp) {
         </div>
       </div>
 
-      <div className='p-6 flex-1 flex min-h-[160px]'>
-        <h2 className='text-2xl font-medium mb-2 pr-8'>{journal.title}</h2>
-      </div>
-      <div className='bg-[#f6f3ee] p-3 flex justify-between items-center rounded-b-md text-sm'>
-        <div className='text-zinc-700 font-medium'>{journal.category}</div>
-        <div className='flex items-center text-zinc-700'>
-          <Calendar className='h-3 w-3 mr-1.5' />
-          <span>{formattedDate(journal.createdAt)}</span>
+      <Link
+        href={`/dashboard/journals/${journal.id}`}
+        className='flex-1 flex flex-col'
+      >
+        <div className='p-6 flex-1 flex min-h-[160px]'>
+          <h2 className='text-2xl font-medium mb-2 pr-8'>{journal.title}</h2>
         </div>
-      </div>
+        <div className='bg-[#f6f3ee] p-3 flex justify-between items-center rounded-b-md text-sm'>
+          <div className='text-zinc-700 font-medium'>{journal.category}</div>
+          <div className='flex items-center text-zinc-700'>
+            <Calendar className='h-3 w-3 mr-1.5' />
+            <span>{formattedDate(journal.createdAt)}</span>
+          </div>
+        </div>
+      </Link>
     </div>
   )
 }
