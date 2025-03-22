@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@aws-crypto/sha256-browser": "^5.2.0",
+    "@huggingface/inference": "^3.6.1",
     "@nivo/calendar": "^0.88.0",
+    "@nivo/line": "^0.88.0",
     "@nivo/pie": "^0.88.0",
     "@vercel/postgres": "^0.10.0",
     "clsx": "^2.1.1",
@@ -20,7 +22,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-feather": "^2.0.10",
-    "react-tailwindcss-datepicker": "^2.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

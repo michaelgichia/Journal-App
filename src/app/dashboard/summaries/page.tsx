@@ -3,6 +3,7 @@
 import {useState, useEffect} from 'react'
 import {subYears} from 'date-fns'
 import {CalendarDatum} from '@nivo/calendar'
+import {Serie} from '@nivo/line'
 
 import JournalSummaries from '@/app/ui/dashboard/journal-summaries'
 import EntriesFrequency from '@/app/ui/dashboard/journal-frequency'
@@ -10,11 +11,13 @@ import Datepicker from '@/app/ui/datepicker'
 import {Search} from '@/app/ui/icons'
 import {CategoryDistribution, DateFilter, Summary} from '@/types/journal'
 import CategoryPieChart from '@/app/ui/dashboard/category-distribution'
+import WordCountTrendChart from '@/app/ui/dashboard/word-count-trends'
 
 export default function Page() {
   const [loading, setLoading] = useState(true)
   const [entries, setEntries] = useState<CalendarDatum[]>([])
   const [categories, setCategories] = useState<CategoryDistribution[]>([])
+  const [wordTrends, setWordTrends] = useState<Serie[]>([])
   const [summary, setSummary] = useState<Summary>({
     totalEntries: 0,
     avgWordCount: 0,
@@ -35,6 +38,9 @@ export default function Page() {
       console.error(error.message),
     )
     fetchCatsDistributions(startDate, endDate).catch((error) =>
+      console.error(error.message),
+    )
+    fetchWordTrends(startDate, endDate).catch((error) =>
       console.error(error.message),
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,6 +104,23 @@ export default function Page() {
     setLoading(false)
   }
 
+  async function fetchWordTrends(
+    startDate: string | null,
+    endDate: string | null,
+  ) {
+    if (!startDate || !endDate) return
+    setLoading(true)
+    const res = await fetch(
+      `/api/summary/word-count-trends?startDate=${startDate}&endDate=${endDate}`,
+    )
+    if (!res.ok) {
+      throw new Error('Failed to fetch summary')
+    }
+    const data = await res.json()
+    setWordTrends(data)
+    setLoading(false)
+  }
+
   const handleSubmit = async () => {
     await fetchSummary(dateFilter.startAt, dateFilter.endAt)
   }
@@ -143,7 +166,10 @@ export default function Page() {
         <JournalSummaries loading={loading} summary={summary} />
       </div>
       <EntriesFrequency entries={entries} loading={loading} />
-      <CategoryPieChart categories={categories} loading={loading} />
+      <div className='grid gap-6 md:grid-cols-1 lg:grid-cols-2'>
+        <CategoryPieChart categories={categories} loading={loading} />
+        <WordCountTrendChart wordTrends={wordTrends} loading={loading} />
+      </div>
     </div>
   )
 }

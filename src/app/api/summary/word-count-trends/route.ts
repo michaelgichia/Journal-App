@@ -2,6 +2,16 @@ import {sql} from '@vercel/postgres'
 import {NextResponse, type NextRequest} from 'next/server'
 import {auth} from '@/config/auth'
 
+type WordCountTrend = {
+  x: string
+  y: number
+}
+
+type WordCountSeries = {
+  id: string
+  data: WordCountTrend[]
+}
+
 export async function GET(req: NextRequest) {
   try {
     const session = await auth()
@@ -17,22 +27,36 @@ export async function GET(req: NextRequest) {
 
     const {rows} = await sql`
       SELECT
-        TO_CHAR(DATE(created_at), 'YYYY-MM-DD') AS entryDate,
-        CAST(COUNT(*) AS INTEGER) AS entryCount
+        TO_CHAR(DATE(created_at), 'YYYY-MM-DD') AS entry_date,
+        SUM(
+          LENGTH(content) - LENGTH(REGEXP_REPLACE(content, '\s+', '', 'g')) + 1
+        ) AS word_count
       FROM journals
       WHERE
         user_id = ${userId}
         AND created_at >= ${startDate}::date
         AND created_at < ${endDate}::date
       GROUP BY DATE(created_at)
-      ORDER BY entryDate
+      ORDER BY entry_date
     `
 
-    return NextResponse.json(rows, {status: 200})
+    const trendData: WordCountTrend[] = rows.map((row) => ({
+      x: row.entry_date,
+      y: Number(row.word_count) || 0,
+    }))
+
+    const series: WordCountSeries[] = [
+      {
+        id: 'word_count',
+        data: trendData,
+      },
+    ]
+
+    return NextResponse.json(series)
   } catch (error) {
-    console.error('Error fetching entry frequency:', error)
+    console.error('Error fetching word count trends:', error)
     return NextResponse.json(
-      {error: 'Failed to fetch entry frequency'},
+      {error: 'Failed to fetch word count trends'},
       {status: 500},
     )
   }
