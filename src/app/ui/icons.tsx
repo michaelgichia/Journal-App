@@ -56,6 +56,10 @@ export const Activity = dynamic(() => import('react-feather').then((mod) => mod.
   ssr: true,
 });
 
+export const Shuffle = dynamic(() => import('react-feather').then((mod) => mod.Shuffle), {
+  ssr: true,
+});
+
 export const Coffee = dynamic(() => import('react-feather').then((mod) => mod.Coffee), {
   ssr: true,
 });

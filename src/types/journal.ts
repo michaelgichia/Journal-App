@@ -26,3 +26,8 @@ export interface Summary {
   avgWordCount: number
   mostUsedCategory: string
 }
+
+export interface CategoryDistribution {
+  id: string
+  value: number
+}

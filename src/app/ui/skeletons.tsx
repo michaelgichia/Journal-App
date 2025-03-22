@@ -80,3 +80,55 @@ export const HeatmapSkeleton = () => {
     </div>
   );
 };
+
+export const PieChartSkeleton = () => {
+  const segments = 12; // Number of pie chart segments
+  const segmentColors = [
+    'bg-gray-200',
+    'bg-gray-300',
+    'bg-gray-200',
+    'bg-gray-300',
+    'bg-gray-200',
+  ];
+
+  return (
+    <div className="flex items-center justify-around w-full p-8">
+      <div className="relative w-84 h-84 rounded-full animate-pulse">
+        {Array.from({ length: segments }).map((_, index) => {
+          const startAngle = (index / segments) * 360;
+          const endAngle = ((index + 1) / segments) * 360;
+
+          return (
+            <div
+              key={index}
+              className={`absolute inset-0 rounded-full ${segmentColors[index % segmentColors.length]}`}
+              style={{
+                backgroundImage: `conic-gradient(
+                  from ${startAngle}deg,
+                  transparent 0%,
+                  transparent ${startAngle}deg,
+                  rgba(255,255,255,0.8) ${startAngle}deg,
+                  rgba(255,255,255,0.8) ${endAngle}deg,
+                  transparent ${endAngle}deg,
+                  transparent 360deg
+                )`,
+                animationDelay: `${index * 0.3}s`,
+              }}
+            >
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-8 max-w-md">
+        {Array.from({ length: segments }).map((_, index) => (
+          <div key={index} className="flex items-center my-2">
+            <div
+              className={`w-4 h-4 mr-2 rounded-full ${segmentColors[index % segmentColors.length]} animate-pulse`}
+            ></div>
+            <div className="text-sm text-gray-400 animate-pulse w-20 h-4 bg-gray-200 rounded"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
