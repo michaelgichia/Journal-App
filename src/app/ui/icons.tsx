@@ -43,3 +43,23 @@ export const Layers = dynamic(() => import('react-feather').then((mod) => mod.La
 export const Search = dynamic(() => import('react-feather').then((mod) => mod.Search), {
   ssr: true,
 });
+
+export const Grid = dynamic(() => import('react-feather').then((mod) => mod.Grid), {
+  ssr: true,
+});
+
+export const Book = dynamic(() => import('react-feather').then((mod) => mod.Book), {
+  ssr: true,
+});
+
+export const Activity = dynamic(() => import('react-feather').then((mod) => mod.Activity), {
+  ssr: true,
+});
+
+export const Coffee = dynamic(() => import('react-feather').then((mod) => mod.Coffee), {
+  ssr: true,
+});
+
+export const BarChart2 = dynamic(() => import('react-feather').then((mod) => mod.BarChart2), {
+  ssr: true,
+});

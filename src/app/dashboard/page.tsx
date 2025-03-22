@@ -4,10 +4,6 @@ import Link from 'next/link'
 
 import ListJournals from '@/app/ui/journals/list-journals'
 import {CardsSkeleton} from '@/app/ui/skeletons'
-import JournalSummaries from '@/app/ui/dashboard/journal-summaries'
-
-const NEXT_MONTH = new Date()
-NEXT_MONTH.setMonth(NEXT_MONTH.getMonth() + 1)
 
 function CreateJournal() {
   return (
@@ -31,7 +27,6 @@ export default async function Page() {
       </div>
       <div className='max-w-7xl mx-auto'>
         <CreateJournal />
-        <JournalSummaries />
         <Suspense fallback={<CardsSkeleton />}>
           <ListJournals />
         </Suspense>
