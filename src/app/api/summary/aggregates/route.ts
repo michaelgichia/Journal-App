@@ -1,6 +1,7 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 import { type NextRequest } from 'next/server';
+import {auth} from '@/config/auth'
 
 // Define the shape of the response data
 interface SummaryResponse {
@@ -10,15 +11,17 @@ interface SummaryResponse {
 }
 
 export async function GET(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams;
-  const startDate = searchParams.get('startDate');
-  const endDate = searchParams.get('endDate');
-  const userId = searchParams.get('userId');
+  const session = await auth()
+  const userId = session?.user?.id
 
   // Verify user authentication with Clerk
   if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  const searchParams = req.nextUrl.searchParams;
+  const startDate = searchParams.get('startDate');
+  const endDate = searchParams.get('endDate');
 
   if (!startDate || !endDate) {
     return NextResponse.json(

@@ -2,6 +2,9 @@
 
 import {sql} from '@vercel/postgres'
 import {Journal, Category} from '@/types/journal'
+import { NextResponse } from 'next/server';
+
+import {auth} from '@/config/auth'
 
 /**
  * Fetches all categories from the database.
@@ -50,6 +53,14 @@ export async function fetchCategories() {
  * @throws {Error} - Throws a descriptive error if database query fails
  */
 export async function fetchJournal() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  console.log("[[userId]]", userId)
+  // Verify user authentication
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const journals = await sql<Journal>`
       SELECT
@@ -61,11 +72,12 @@ export async function fetchJournal() {
         je.created_at AS "createdAt"
       FROM Journals je
       JOIN Categories c ON je.category_id = c.id
+      WHERE je.user_id = ${userId}
       ORDER BY je.created_at ASC
     `;
     return journals.rows;
   } catch {
-    throw new Error('Failed to fetch all journals.');
+    return NextResponse.json({ error: 'Failed to fetch journals.' }, { status: 500 });
   }
 }
 
@@ -86,7 +98,16 @@ export async function fetchJournal() {
  * @returns {Promise<Journal | undefined>} - The journal with its category information, or undefined if not found
  * @throws {Error} - Throws a descriptive error if database query fails
  */
+
 export async function fetchJournalById(id: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  // Verify user authentication
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
   try {
     const journal = await sql<Journal>`
       SELECT
@@ -98,7 +119,7 @@ export async function fetchJournalById(id: string) {
         je.created_at AS "createdAt"
       FROM Journals je
       JOIN Categories c ON je.category_id = c.id
-      WHERE je.id = ${id}
+      WHERE je.id = ${id} AND je.user_id = ${userId}
     `;
     return journal.rows[0];
   } catch {
