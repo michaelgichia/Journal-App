@@ -56,3 +56,27 @@ export function SummaryCardsSkeleton() {
     </div>
   )
 }
+
+export const HeatmapSkeleton = () => {
+  const days = 365;
+  const rows = 7;
+  return (
+    <div className="flex flex-col items-center bg-white p-4 animate-pulse">
+      <div className="flex flex-wrap w-full max-w-[60rem]">
+        {Array.from({ length: days }).map((_, index) => {
+            const row = index % rows;
+            return (
+              <div
+                key={index}
+                className="w-3.5 h-3.5 m-[1px] bg-[#eee] animate-pulse"
+                style={{
+                  order: row,
+                }}
+              >
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+};
