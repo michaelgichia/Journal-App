@@ -9,7 +9,7 @@ type IProps = {
 
 export default function EntriesFrequency({entries, loading}: IProps) {
   return (
-    <div className='shadow-sm flex flex-col'>
+    <div className='shadow-sm flex flex-col mb-8'>
       <div className='flex pt-4 px-8'>
         <Activity />
         <h2 className='text-2xl pl-2 font-medium'>Entry frequency</h2>

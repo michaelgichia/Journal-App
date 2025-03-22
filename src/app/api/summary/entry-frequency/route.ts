@@ -1,6 +1,5 @@
 import {sql} from '@vercel/postgres'
-import {NextResponse} from 'next/server'
-import {type NextRequest} from 'next/server'
+import {NextResponse, type NextRequest} from 'next/server'
 import {auth} from '@/config/auth'
 
 export async function GET(req: NextRequest) {

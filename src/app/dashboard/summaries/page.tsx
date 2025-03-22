@@ -7,12 +7,14 @@ import {CalendarDatum} from '@nivo/calendar'
 import JournalSummaries from '@/app/ui/dashboard/journal-summaries'
 import EntriesFrequency from '@/app/ui/dashboard/journal-frequency'
 import Datepicker from '@/app/ui/datepicker'
-import {Activity, Search} from '@/app/ui/icons'
-import {DateFilter, Summary} from '@/types/journal'
+import {Search} from '@/app/ui/icons'
+import {CategoryDistribution, DateFilter, Summary} from '@/types/journal'
+import CategoryPieChart from '@/app/ui/dashboard/category-distribution'
 
 export default function Page() {
   const [loading, setLoading] = useState(true)
   const [entries, setEntries] = useState<CalendarDatum[]>([])
+  const [categories, setCategories] = useState<CategoryDistribution[]>([])
   const [summary, setSummary] = useState<Summary>({
     totalEntries: 0,
     avgWordCount: 0,
@@ -29,8 +31,31 @@ export default function Page() {
     fetchSummary(startDate, endDate).catch((error) =>
       console.error(error.message),
     )
+    fetchEntriesFrequency(startDate, endDate).catch((error) =>
+      console.error(error.message),
+    )
+    fetchCatsDistributions(startDate, endDate).catch((error) =>
+      console.error(error.message),
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  async function fetchCatsDistributions(
+    startDate: string | null,
+    endDate: string | null,
+  ) {
+    if (!startDate || !endDate) return
+    setLoading(true)
+    const res = await fetch(
+      `/api/summary/category-distribution?startDate=${startDate}&endDate=${endDate}`,
+    )
+    if (!res.ok) {
+      throw new Error('Failed to fetch summary')
+    }
+    const data = await res.json()
+    setCategories(data)
+    setLoading(false)
+  }
 
   async function fetchEntriesFrequency(
     startDate: string | null,
@@ -72,15 +97,6 @@ export default function Page() {
     setSummary(data)
     setLoading(false)
   }
-
-  useEffect(() => {
-    const startDate = dateFilter.startAt
-    const endDate = dateFilter.endAt
-    fetchEntriesFrequency(startDate, endDate).catch((error) =>
-      console.error(error.message),
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handleSubmit = async () => {
     await fetchSummary(dateFilter.startAt, dateFilter.endAt)
@@ -127,6 +143,7 @@ export default function Page() {
         <JournalSummaries loading={loading} summary={summary} />
       </div>
       <EntriesFrequency entries={entries} loading={loading} />
+      <CategoryPieChart categories={categories} loading={loading} />
     </div>
   )
 }
