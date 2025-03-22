@@ -15,3 +15,14 @@ export type Category = {
   type: string
   created_at: string
 }
+
+export interface DateFilter {
+  startAt: string
+  endAt: string
+}
+
+export interface Summary {
+  totalEntries: number
+  avgWordCount: number
+  mostUsedCategory: string
+}

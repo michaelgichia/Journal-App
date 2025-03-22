@@ -27,3 +27,39 @@ export const Calendar = dynamic(() => import('react-feather').then((mod) => mod.
 export const MoreVertical = dynamic(() => import('react-feather').then((mod) => mod.MoreVertical), {
   ssr: true,
 });
+
+export const Inbox = dynamic(() => import('react-feather').then((mod) => mod.Inbox), {
+  ssr: true,
+});
+
+export const TrendingUp = dynamic(() => import('react-feather').then((mod) => mod.TrendingUp), {
+  ssr: true,
+});
+
+export const Layers = dynamic(() => import('react-feather').then((mod) => mod.Layers), {
+  ssr: true,
+});
+
+export const Search = dynamic(() => import('react-feather').then((mod) => mod.Search), {
+  ssr: true,
+});
+
+export const Grid = dynamic(() => import('react-feather').then((mod) => mod.Grid), {
+  ssr: true,
+});
+
+export const Book = dynamic(() => import('react-feather').then((mod) => mod.Book), {
+  ssr: true,
+});
+
+export const Activity = dynamic(() => import('react-feather').then((mod) => mod.Activity), {
+  ssr: true,
+});
+
+export const Coffee = dynamic(() => import('react-feather').then((mod) => mod.Coffee), {
+  ssr: true,
+});
+
+export const BarChart2 = dynamic(() => import('react-feather').then((mod) => mod.BarChart2), {
+  ssr: true,
+});
