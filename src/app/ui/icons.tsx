@@ -39,3 +39,7 @@ export const TrendingUp = dynamic(() => import('react-feather').then((mod) => mo
 export const Layers = dynamic(() => import('react-feather').then((mod) => mod.Layers), {
   ssr: true,
 });
+
+export const Search = dynamic(() => import('react-feather').then((mod) => mod.Search), {
+  ssr: true,
+});

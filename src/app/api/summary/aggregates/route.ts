@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
 
     const totalEntries = Number(totalEntriesResult.rows[0].total_entries);
     const avgWordCount = Math.round(Number(avgWordCountResult.rows[0]?.avg_word_count || 0));
-    const mostUsedCategory = mostUsedCategoryResult.rows[0]?.category_name || 'None';
+    const mostUsedCategory = mostUsedCategoryResult.rows[0]?.category_name || 'No data';
 
     const data: SummaryResponse = {
       totalEntries,

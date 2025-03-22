@@ -31,12 +31,7 @@ export default async function Page() {
       </div>
       <div className='max-w-7xl mx-auto'>
         <CreateJournal />
-        <JournalSummaries
-          dateRange={{
-            startDate: new Date('2025-01-20T23:34:51.366Z'),
-            endDate: new Date('2025-03-20T23:34:51.366Z'),
-          }}
-        />
+        <JournalSummaries />
         <Suspense fallback={<CardsSkeleton />}>
           <ListJournals />
         </Suspense>

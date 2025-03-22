@@ -59,7 +59,7 @@ export default function Card({journal}: IProp) {
 
       <div className='flex-1'>
         <Link href={`/dashboard/journals/${journal.id}`}>
-          <h2 className='text-xl font-medium text-gray-900 mb-2 pr-8 hover:text-teal-700'>
+          <h2 className='text-xl font-medium text-gray-900 mb-2 pr-8'>
             {journal.title}
           </h2>
         </Link>

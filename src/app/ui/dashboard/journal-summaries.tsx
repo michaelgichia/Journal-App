@@ -2,9 +2,11 @@
 
 import {useEffect, useState} from 'react'
 import {SummaryCardsSkeleton} from '@/app/ui/skeletons'
+import {subYears} from 'date-fns'
 
 import Datepicker from '@/app/ui/datepicker'
 import SummariesCard from './summaries-card'
+import {Search} from '@/app/ui/icons'
 
 interface Summary {
   totalEntries: number
@@ -17,15 +19,11 @@ interface DateFilter {
   endAt: string | null
 }
 
-export default function JournalSummaries({
-  dateRange,
-}: {
-  dateRange: {startDate: Date; endDate: Date}
-}) {
+export default function JournalSummaries() {
   const [loading, setLoading] = useState(true)
   const [dateFilter, setDateFilter] = useState<DateFilter>({
-    startAt: null,
-    endAt: null,
+    startAt: subYears(new Date(), 1).toISOString(),
+    endAt: new Date().toISOString(),
   })
   const [summary, setSummary] = useState<Summary>({
     totalEntries: 0,
@@ -33,27 +31,34 @@ export default function JournalSummaries({
     mostUsedCategory: '',
   })
 
-  useEffect(() => {
-    async function fetchSummary() {
-      const startDate = dateRange.startDate.toISOString()
-      const endDate = dateRange.endDate.toISOString()
-      setLoading(true)
-      const res = await fetch(
-        `/api/summary/aggregates?startDate=${startDate}&endDate=${endDate}&userId=31e907cd-b8e4-4a19-a0b2-10ef22d8b4d1`,
-      )
-      if (!res.ok) {
-        throw new Error('Failed to fetch summary')
-      }
-      const data = await res.json()
-      setSummary(data)
-      setLoading(false)
+  async function fetchSummary(
+    startDate: string | null,
+    endDate: string | null,
+  ) {
+    if (!startDate || !endDate) return
+    setLoading(true)
+    const res = await fetch(
+      `/api/summary/aggregates?startDate=${startDate}&endDate=${endDate}&userId=31e907cd-b8e4-4a19-a0b2-10ef22d8b4d1`,
+    )
+    if (!res.ok) {
+      throw new Error('Failed to fetch summary')
     }
-    fetchSummary().catch((error) => console.error(error.message))
-  }, [dateRange])
+    const data = await res.json()
+    setSummary(data)
+    setLoading(false)
+  }
 
-  const handleSubmit = () => {
-    console.log('HELLO', dateFilter)
-    return
+  useEffect(() => {
+    const startDate = dateFilter.startAt
+    const endDate = dateFilter.endAt
+    fetchSummary(startDate, endDate).catch((error) =>
+      console.error(error.message),
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleSubmit = async () => {
+    await fetchSummary(dateFilter.startAt, dateFilter.endAt)
   }
 
   if (loading)
@@ -66,30 +71,38 @@ export default function JournalSummaries({
   return (
     <>
       <div className='flex flex-1 gap-4 p-4 bg-gray-50 rounded-sm mb-8'>
-        <Datepicker
-          name='startAt'
-          value={dateFilter.startAt}
-          onChange={(value) => {
-            setDateFilter((prev) => ({
-              ...prev,
-              startAt: value,
-            }))
-          }}
-        />
-        <Datepicker
-          name='endAt'
-          value={dateFilter.endAt}
-          onChange={(value) => {
-            setDateFilter((prev) => ({
-              ...prev,
-              endAt: value,
-            }))
-          }}
-        />
-        <button onClick={handleSubmit}>submit</button>
+        <div className='flex flex-col w-full justify-center'>
+          <span>Start date</span>
+          <Datepicker
+            name='startAt'
+            value={dateFilter.startAt}
+            onChange={(value) => {
+              setDateFilter((prev) => ({
+                ...prev,
+                startAt: value,
+              }))
+            }}
+          />
+        </div>
+        <div className='flex flex-col w-full'>
+          <span>End date</span>
+          <Datepicker
+            name='endAt'
+            value={dateFilter.endAt}
+            onChange={(value) => {
+              setDateFilter((prev) => ({
+                ...prev,
+                endAt: value,
+              }))
+            }}
+          />
+        </div>
+        <button onClick={handleSubmit} className='mt-4 h-14 w-14'>
+          <span className='sr-only'>Search</span>
+          <Search />
+        </button>
       </div>
-
-      <div className='grid gap-6 sm:grid-cols-3 grid-cols-3 mb-8'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'>
         <SummariesCard
           title='Total Entries'
           value={summary?.totalEntries}
