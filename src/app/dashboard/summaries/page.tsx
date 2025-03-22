@@ -28,9 +28,6 @@ export default function Page() {
     endAt: new Date().toISOString(),
   })
 
-  console.log({ wordTrends })
-
-
   useEffect(() => {
     const startDate = dateFilter.startAt
     const endDate = dateFilter.endAt
@@ -169,8 +166,10 @@ export default function Page() {
         <JournalSummaries loading={loading} summary={summary} />
       </div>
       <EntriesFrequency entries={entries} loading={loading} />
-      <CategoryPieChart categories={categories} loading={loading} />
-      <WordCountTrendChart wordTrends={wordTrends} loading={loading} />
+      <div className='grid gap-6 md:grid-cols-1 lg:grid-cols-2'>
+        <CategoryPieChart categories={categories} loading={loading} />
+        <WordCountTrendChart wordTrends={wordTrends} loading={loading} />
+      </div>
     </div>
   )
 }

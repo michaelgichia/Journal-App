@@ -1,8 +1,8 @@
 "use client";
 
 import {ResponsiveLine, Serie} from '@nivo/line'
-import {HeatmapSkeleton} from '@/app/ui/skeletons'
-import {Activity} from '@/app/ui/icons'
+import {PieChartSkeleton} from '@/app/ui/skeletons'
+import {Send} from '@/app/ui/icons'
 
 type IProps = {
   wordTrends: Serie[]
@@ -10,17 +10,15 @@ type IProps = {
 }
 
 export default function WordCountTrendChart({wordTrends, loading}: IProps) {
-  console.log({ wordTrends })
-
   return (
     <div className='shadow-sm flex flex-col mb-8'>
       <div className='flex pt-4 px-8'>
-        <Activity />
+        <Send />
         <h2 className='text-2xl pl-2 font-medium'>Word Count Trends Over Time</h2>
       </div>
-      <div className='h-[200px] w-full flex items-center'>
+      <div className='h-[400px] w-full flex items-center'>
         {loading ? (
-          <HeatmapSkeleton />
+          <PieChartSkeleton />
         ) : (
           <ResponsiveLine
             data={wordTrends}
@@ -30,10 +28,6 @@ export default function WordCountTrendChart({wordTrends, loading}: IProps) {
             yScale={{type: 'linear', min: 0, max: 'auto'}}
             axisBottom={{
               format: '%b %d',
-              tickValues: 'every 1 month',
-              legend: 'Date',
-              legendOffset: 36,
-              legendPosition: 'middle',
             }}
             axisLeft={{
               legend: 'Word Count',
@@ -45,10 +39,10 @@ export default function WordCountTrendChart({wordTrends, loading}: IProps) {
             pointColor={{theme: 'background'}}
             pointBorderWidth={2}
             pointBorderColor={{from: 'serieColor'}}
-            enablePoints={false} // Disable points for a cleaner line
+            enablePoints={true} // Disable points for a cleaner line
             useMesh={true} // Enable interactivity
-            enableGridX={false}
-            enableArea={true} // Fill the area under the line
+            enableGridX={true}
+            enableArea={false} // Fill the area under the line
             areaOpacity={0.2}
           />
         )}

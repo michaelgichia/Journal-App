@@ -30,7 +30,7 @@ export default function CategoryPieChart({categories, loading}: IProps) {
           <ResponsivePie
             data={adjustedData}
             margin={{top: 40, right: 80, bottom: 80, left: 80}}
-            innerRadius={0.8}
+            innerRadius={0.5}
             sortByValue
             padAngle={0.7}
             cornerRadius={3}
@@ -49,13 +49,10 @@ export default function CategoryPieChart({categories, loading}: IProps) {
                 anchor: 'right',
                 direction: 'column',
                 justify: false,
-                translateX: 0,
-                translateY: 0,
-                itemsSpacing: 0,
                 itemWidth: 100,
                 itemHeight: 18,
                 itemTextColor: '#999',
-                itemDirection: 'left-to-right',
+                itemDirection: 'right-to-left',
                 itemOpacity: 1,
                 symbolSize: 18,
                 symbolShape: 'circle',
