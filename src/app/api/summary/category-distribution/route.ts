@@ -1,12 +1,40 @@
+/**
+ * Category Distribution API Route
+ *
+ * This route analyzes the distribution of journal entries across different
+ * categories within a specified date range. It provides insights into
+ * which categories are most frequently used in journaling.
+ *
+ * @module category-distribution
+ */
+
 import {sql} from '@vercel/postgres'
 import {NextResponse, type NextRequest} from 'next/server'
 import {auth} from '@/config/auth'
 
+/**
+ * Represents the distribution of entries across a category
+ * @typedef {Object} CategoryDistribution
+ * @property {string} id - The name of the category
+ * @property {number} value - The number of entries in this category
+ */
 type CategoryDistribution = {
   id: string // Category name
   value: number // Number of entries in this category
 }
 
+/**
+ * GET handler for category distribution
+ *
+ * This endpoint:
+ * 1. Authenticates the user
+ * 2. Calculates the number of entries per category
+ * 3. Returns the distribution data sorted by frequency
+ *
+ * @param {NextRequest} req - The incoming request containing date range parameters
+ * @returns {Promise<NextResponse>} Response containing the category distribution or error
+ * @throws {Error} When authentication fails or processing errors occur
+ */
 export async function GET(req: NextRequest) {
   const session = await auth()
   const userId = session?.user?.id

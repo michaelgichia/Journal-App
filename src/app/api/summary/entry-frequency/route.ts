@@ -1,7 +1,29 @@
+/**
+ * Entry Frequency API Route
+ *
+ * This route provides daily journal entry frequency data within a specified
+ * date range. It helps users track their journaling consistency and identify
+ * patterns in their writing habits.
+ *
+ * @module entry-frequency
+ */
+
 import {sql} from '@vercel/postgres'
 import {NextResponse, type NextRequest} from 'next/server'
 import {auth} from '@/config/auth'
 
+/**
+ * GET handler for entry frequency
+ *
+ * This endpoint:
+ * 1. Authenticates the user
+ * 2. Counts the number of entries per day
+ * 3. Returns the frequency data sorted by date
+ *
+ * @param {NextRequest} req - The incoming request containing date range parameters
+ * @returns {Promise<NextResponse>} Response containing the entry frequency data or error
+ * @throws {Error} When authentication fails or processing errors occur
+ */
 export async function GET(req: NextRequest) {
   try {
     const session = await auth()
