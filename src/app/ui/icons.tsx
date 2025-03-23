@@ -71,3 +71,7 @@ export const Coffee = dynamic(() => import('react-feather').then((mod) => mod.Co
 export const BarChart2 = dynamic(() => import('react-feather').then((mod) => mod.BarChart2), {
   ssr: true,
 });
+
+export const Target = dynamic(() => import('react-feather').then((mod) => mod.Target), {
+  ssr: true,
+});

@@ -1,14 +1,42 @@
+/**
+ * Journal Summary Aggregates API Route
+ *
+ * This route provides high-level statistics about a user's journal entries
+ * within a specified date range. It calculates key metrics including total
+ * entries, average word count, and most frequently used category.
+ *
+ * @module aggregates
+ */
+
 import { sql } from '@vercel/postgres';
 import { NextResponse, type NextRequest } from 'next/server';
 import {auth} from '@/config/auth'
 
-// Define the shape of the response data
+/**
+ * Interface defining the structure of the summary response
+ * @interface SummaryResponse
+ * @property {number} totalEntries - Total number of journal entries in the date range
+ * @property {number} avgWordCount - Average number of words per entry
+ * @property {string} mostUsedCategory - Category with the highest number of entries
+ */
 interface SummaryResponse {
   totalEntries: number;
   avgWordCount: number;
   mostUsedCategory: string;
 }
 
+/**
+ * GET handler for journal summary aggregates
+ *
+ * This endpoint:
+ * 1. Authenticates the user
+ * 2. Calculates aggregate statistics for the specified date range
+ * 3. Returns a comprehensive summary of journal activity
+ *
+ * @param {NextRequest} req - The incoming request containing date range parameters
+ * @returns {Promise<NextResponse>} Response containing the summary statistics or error
+ * @throws {Error} When authentication fails or processing errors occur
+ */
 export async function GET(req: NextRequest) {
   const session = await auth()
   const userId = session?.user?.id
@@ -76,3 +104,7 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export const config = {
+  runtime: 'nodejs',
+};

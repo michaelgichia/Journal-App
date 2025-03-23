@@ -27,7 +27,7 @@ export async function fetchCategories() {
     const categories = await sql<Category>`
       SELECT id, name, type, created_at
       FROM Categories
-      ORDER BY name ASC;
+      ORDER BY name DESC;
       `
     return categories.rows
   } catch {
@@ -55,7 +55,6 @@ export async function fetchCategories() {
 export async function fetchJournal() {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log("[[userId]]", userId)
   // Verify user authentication
   if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -73,7 +72,7 @@ export async function fetchJournal() {
       FROM Journals je
       JOIN Categories c ON je.category_id = c.id
       WHERE je.user_id = ${userId}
-      ORDER BY je.created_at ASC
+      ORDER BY je.created_at DESC
     `;
     return journals.rows;
   } catch {

@@ -6,6 +6,15 @@ import {redirect} from 'next/navigation'
 
 import {auth} from '@/config/auth'
 import {CreateJournalSchema} from '@/schema/journal'
+import hf from '@/hf';
+
+function getSubString(text: string): string {
+  if (text.length <= 514) {
+    return text;
+  } else {
+    return text.substring(0, 514);
+  }
+}
 
 /**
  * Represents the state of a journal operation (create/update).
@@ -70,12 +79,35 @@ export async function createJournal(
 
   const {title, content, categoryId} = result.data
 
+  let sentiment: string = 'neutral';
+  let sentimentScore: number = 0.5;
+
   try {
-    await sql`
-    INSERT INTO Journals (user_id, title, content, category_id)
-    VALUES (${userId}, ${title}, ${content}, ${categoryId})
-    RETURNING id, user_id, title, content, category_id, created_at, updated_at
-  `
+    const response = await hf.textClassification({
+      model: 'SamLowe/roberta-base-go_emotions',
+      inputs: getSubString(content),
+      parameters: {
+        max_length: 680,
+      },
+    });
+
+    const classificationContent = response[0] || null;
+
+    if (classificationContent && classificationContent.label && typeof classificationContent.score === 'number') {
+      sentiment = classificationContent.label; // e.g., 'joy'
+      sentimentScore = Number(classificationContent.score.toFixed(4)); // e.g., 0.6737
+    }
+  } catch (error) {
+    console.error('Error classifying sentiment:', error);
+    // Fallback to default values (already set)
+  }
+
+  try {
+  await sql`
+    INSERT INTO journals (user_id, title, content, category_id, sentiment, sentiment_score, created_at)
+    VALUES (${userId}, ${title}, ${content}, ${categoryId}, ${sentiment}, ${sentimentScore}, NOW())
+    RETURNING id, user_id, title, content, category_id, sentiment, sentiment_score, created_at, updated_at
+  `;
   } catch {
     return {success: false, message: 'Failed to create a journal'}
   }

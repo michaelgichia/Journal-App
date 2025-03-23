@@ -11,6 +11,9 @@ importers:
       '@aws-crypto/sha256-browser':
         specifier: ^5.2.0
         version: 5.2.0
+      '@huggingface/inference':
+        specifier: ^3.6.1
+        version: 3.6.1
       '@nivo/calendar':
         specifier: ^0.88.0
         version: 0.88.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -44,9 +47,6 @@ importers:
       react-feather:
         specifier: ^2.0.10
         version: 2.0.10(react@19.0.0)
-      react-tailwindcss-datepicker:
-        specifier: ^2.0.0
-        version: 2.0.0(dayjs@1.11.13)(react@19.0.0)
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -166,6 +166,17 @@ packages:
   '@eslint/plugin-kit@0.2.7':
     resolution: {integrity: sha512-JubJ5B2pJ4k4yGxaNLdbjrnk9d/iDz6/q8wOilpIowd6PJPgaxCuHBnBszq7Ce2TyMrywm5r4PnKm6V3iiZF+g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@huggingface/inference@3.6.1':
+    resolution: {integrity: sha512-EtQlbBqcZycPe+qiTEFI+wNHOMpG0gwNTaZSvYu1juN1p/1dEgqAb2GO31dxLgNev2PzH9d+9nm8GngOsIepJg==}
+    engines: {node: '>=18'}
+
+  '@huggingface/jinja@0.3.3':
+    resolution: {integrity: sha512-vQQr2JyWvVFba3Lj9es4q9vCl1sAc74fdgnEMoX8qHrXtswap9ge9uO3ONDzQB0cQ0PUyaKY2N6HaVbTBvSXvw==}
+    engines: {node: '>=18'}
+
+  '@huggingface/tasks@0.17.9':
+    resolution: {integrity: sha512-lV6RgCJkqy3p93FFxP9H4SGJmFcHAwr1FO+Zk56q/JWsf7Tdsel1DEo1Xfd3An7ZPWpc2Y9ldRecGo9efDYghg==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -948,9 +959,6 @@ packages:
 
   date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
-
-  dayjs@1.11.13:
-    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
@@ -1776,12 +1784,6 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  react-tailwindcss-datepicker@2.0.0:
-    resolution: {integrity: sha512-HADddzZjeOIMxkKkueAyQmiAExLXYcwgPG0Qv1oP9cjCx4/jrhbbOAbazgjJmxfhGxUw7e0Goqs+DY3htKlhAA==}
-    peerDependencies:
-      dayjs: ^1.11.12
-      react: ^17.0.2 || ^18.2.0 || ^19.0.0
-
   react@19.0.0:
     resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
     engines: {node: '>=0.10.0'}
@@ -2167,6 +2169,15 @@ snapshots:
     dependencies:
       '@eslint/core': 0.12.0
       levn: 0.4.1
+
+  '@huggingface/inference@3.6.1':
+    dependencies:
+      '@huggingface/jinja': 0.3.3
+      '@huggingface/tasks': 0.17.9
+
+  '@huggingface/jinja@0.3.3': {}
+
+  '@huggingface/tasks@0.17.9': {}
 
   '@humanfs/core@0.19.1': {}
 
@@ -3014,8 +3025,6 @@ snapshots:
       is-data-view: 1.0.2
 
   date-fns@4.1.0: {}
-
-  dayjs@1.11.13: {}
 
   debug@3.2.7:
     dependencies:
@@ -3955,11 +3964,6 @@ snapshots:
       react: 19.0.0
 
   react-is@16.13.1: {}
-
-  react-tailwindcss-datepicker@2.0.0(dayjs@1.11.13)(react@19.0.0):
-    dependencies:
-      dayjs: 1.11.13
-      react: 19.0.0
 
   react@19.0.0: {}
 
