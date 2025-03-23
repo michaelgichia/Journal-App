@@ -31,3 +31,8 @@ export interface CategoryDistribution {
   id: string
   value: number
 }
+
+export type EmotionCategory = {
+  id: string;
+  value: number;
+};
