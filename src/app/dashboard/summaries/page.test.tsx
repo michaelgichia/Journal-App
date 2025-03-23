@@ -85,11 +85,11 @@ describe('Summaries Page', () => {
     // Reset all mocks before each test
     jest.clearAllMocks();
     // Mock Date constructor and now()
-    global.Date = jest.fn((...args: any[]) => {
+    global.Date = jest.fn((...args: unknown[]) => {
       if (args.length === 0) {
         return mockDate;
       }
-      return new RealDate(...args);
+      return new RealDate(...args as [number, number, number, number, number, number, number]);
     }) as unknown as typeof Date;
     global.Date.now = jest.fn(() => mockDate.getTime());
   });

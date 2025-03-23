@@ -1,17 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CalendarDatum } from '@nivo/calendar';
-import { Serie } from '@nivo/line';
-import { CategoryDistribution, EmotionCategory, Summary, DateFilter, JournalSummariesResponse } from '@/types/journal';
-
-interface JournalSummariesData {
-  entries: CalendarDatum[];
-  categories: CategoryDistribution[];
-  wordTrends: Serie[];
-  sentiments: EmotionCategory[];
-  summary: Summary;
-  isLoading: boolean;
-  error: Error | null;
-}
+import { DateFilter, JournalSummariesResponse } from '@/types/journal';
 
 export const useJournalSummaries = (dateFilter: DateFilter): JournalSummariesResponse => {
   const [data, setData] = useState<Omit<JournalSummariesResponse, 'isLoading' | 'error'>>({

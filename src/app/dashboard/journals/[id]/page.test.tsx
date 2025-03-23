@@ -75,7 +75,7 @@ describe('Journal Detail Page', () => {
       await Page({
         params: Promise.resolve({ id: 'non-existent' }),
       });
-    } catch (error) {
+    } catch {
       // This is expected as notFound() throws an error
     }
 

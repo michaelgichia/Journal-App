@@ -13,7 +13,7 @@ type IProps = {
 
 export default function Form({categories}: IProps) {
   const initialState: IState = {message: null, errors: {}, success: null}
-  const [state, formAction, isPending] = useActionState<IState | undefined>(
+  const [state, formAction, isPending] = useActionState(
     createJournal,
     initialState,
   )
