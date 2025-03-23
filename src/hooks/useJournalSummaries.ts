@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CalendarDatum } from '@nivo/calendar';
 import { Serie } from '@nivo/line';
-import { CategoryDistribution, EmotionCategory, Summary, DateFilter } from '@/types/journal';
+import { CategoryDistribution, EmotionCategory, Summary, DateFilter, JournalSummariesResponse } from '@/types/journal';
 
 interface JournalSummariesData {
   entries: CalendarDatum[];
@@ -13,71 +13,53 @@ interface JournalSummariesData {
   error: Error | null;
 }
 
-export function useJournalSummaries(dateFilter: DateFilter): JournalSummariesData {
-  const [data, setData] = useState<JournalSummariesData>({
+export const useJournalSummaries = (dateFilter: DateFilter): JournalSummariesResponse => {
+  const [data, setData] = useState<Omit<JournalSummariesResponse, 'isLoading' | 'error'>>({
     entries: [],
     categories: [],
     wordTrends: [],
     sentiments: [],
     summary: {
       totalEntries: 0,
-      avgWordCount: 0,
-      mostUsedCategory: '',
     },
-    isLoading: true,
-    error: null,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!dateFilter.startAt || !dateFilter.endAt) return;
-
+    const fetchSummaries = async () => {
       try {
-        setData(prev => ({ ...prev, isLoading: true, error: null }));
+        setIsLoading(true);
+        setError(null);
 
-        const [summaryRes, entriesRes, categoriesRes, wordTrendsRes, sentimentsRes] = await Promise.all([
-          fetch(`/api/summary/aggregates?startDate=${dateFilter.startAt}&endDate=${dateFilter.endAt}`),
-          fetch(`/api/summary/entry-frequency?startDate=${dateFilter.startAt}&endDate=${dateFilter.endAt}`),
-          fetch(`/api/summary/category-distribution?startDate=${dateFilter.startAt}&endDate=${dateFilter.endAt}`),
-          fetch(`/api/summary/word-count-trends?startDate=${dateFilter.startAt}&endDate=${dateFilter.endAt}`),
-          fetch(`/api/summary/sentiment-summary?startDate=${dateFilter.startAt}&endDate=${dateFilter.endAt}`),
-        ]);
+        // TODO: Implement actual API call here
+        const response = await fetch('/api/journal/summaries', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dateFilter),
+        });
 
-        if (!summaryRes.ok || !entriesRes.ok || !categoriesRes.ok || !wordTrendsRes.ok || !sentimentsRes.ok) {
-          throw new Error('Failed to fetch summary data');
+        if (!response.ok) {
+          throw new Error('Failed to fetch journal summaries');
         }
 
-        const [summary, entries, categories, wordTrends, sentiments] = await Promise.all([
-          summaryRes.json(),
-          entriesRes.json(),
-          categoriesRes.json(),
-          wordTrendsRes.json(),
-          sentimentsRes.json(),
-        ]);
-
-        setData({
-          entries: entries.map(({ entrydate, entrycount }: { entrydate: string; entrycount: number }) => ({
-            day: entrydate,
-            value: entrycount,
-          })),
-          categories,
-          wordTrends,
-          sentiments,
-          summary,
-          isLoading: false,
-          error: null,
-        });
-      } catch (error) {
-        setData(prev => ({
-          ...prev,
-          isLoading: false,
-          error: error instanceof Error ? error : new Error('An unknown error occurred'),
-        }));
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An error occurred'));
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, [dateFilter.startAt, dateFilter.endAt]);
+    fetchSummaries();
+  }, [dateFilter]);
 
-  return data;
-}
+  return {
+    ...data,
+    isLoading,
+    error,
+  };
+};

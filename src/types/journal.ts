@@ -21,6 +21,43 @@ export interface DateFilter {
   endAt: string
 }
 
+export interface JournalSummary {
+  totalEntries: number
+  averageWordsPerEntry?: number
+  mostUsedCategory?: string
+  dominantSentiment?: string
+}
+
+export interface JournalEntry {
+  date: string
+  count: number
+}
+
+export interface CategoryCount {
+  name: string
+  count: number
+}
+
+export interface WordTrend {
+  date: string
+  count: number
+}
+
+export interface SentimentCount {
+  sentiment: string
+  count: number
+}
+
+export interface JournalSummariesResponse {
+  entries: JournalEntry[]
+  categories: CategoryCount[]
+  wordTrends: WordTrend[]
+  sentiments: SentimentCount[]
+  summary: JournalSummary
+  isLoading: boolean
+  error: Error | null
+}
+
 export interface Summary {
   totalEntries: number
   avgWordCount: number
