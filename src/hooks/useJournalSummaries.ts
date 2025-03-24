@@ -9,6 +9,8 @@ export const useJournalSummaries = (dateFilter: DateFilter): JournalSummariesRes
     sentiments: [],
     summary: {
       totalEntries: 0,
+      avgWordCount: 0,
+      mostUsedCategory: ''
     },
   });
   const [isLoading, setIsLoading] = useState(false);
