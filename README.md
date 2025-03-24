@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Visit the web application [here](https://journal-app-vert.vercel.app/)
 
+<img width="1790" alt="Screenshot 2025-03-24 at 11 01 16" src="https://github.com/user-attachments/assets/9e5c46ae-a9ac-4d54-b57e-3d42dde0561e" />
+
+
 ## Getting Started
 
 First, run the development server:
