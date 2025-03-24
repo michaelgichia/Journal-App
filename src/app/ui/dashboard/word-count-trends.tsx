@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {ResponsiveLine, Serie} from '@nivo/line'
 import {PieChartSkeleton} from '@/app/ui/skeletons'
@@ -14,12 +14,13 @@ export default function WordCountTrendChart({wordTrends, loading}: IProps) {
     <div className='shadow-sm flex flex-col mb-8'>
       <div className='flex pt-4 px-8'>
         <Send />
-        <h2 className='text-2xl pl-2 font-medium'>Word Count Trends Over Time</h2>
+        <h2 className='text-2xl pl-2 font-medium'>
+          Word Count Trends Over Time
+        </h2>
       </div>
-      <div className='h-[400px] w-full flex items-center'>
-        {loading ? (
-          <PieChartSkeleton />
-        ) : (
+      <div className='h-[400px] w-full flex items-center justify-center'>
+        {loading && <PieChartSkeleton />}
+        {!loading && wordTrends.length > 0 && wordTrends[0].data.length > 0 && (
           <ResponsiveLine
             data={wordTrends}
             margin={{top: 50, right: 50, bottom: 50, left: 60}}
@@ -46,6 +47,14 @@ export default function WordCountTrendChart({wordTrends, loading}: IProps) {
             areaOpacity={0.2}
           />
         )}
+
+        {!loading &&
+          wordTrends.length > 0 &&
+          wordTrends[0].data.length === 0 && (
+            <p className='text-gray-500'>
+              <span>No data available</span>
+            </p>
+          )}
       </div>
     </div>
   )

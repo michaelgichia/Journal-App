@@ -64,9 +64,16 @@ export async function GET(req: NextRequest) {
       LEFT JOIN journals j
         ON j.category_id = c.id
         AND j.created_at BETWEEN ${startDate} AND ${endDate}
+        AND j.user_id = ${userId}
       GROUP BY c.name
       ORDER BY entry_count DESC
     `
+
+    const hasData = rows.some((row) => row.entry_count > 0)
+
+    if(!hasData) {
+      return NextResponse.json([])
+    }
 
     const distribution: CategoryDistribution[] = rows.map((row) => ({
       id: row.category_name,

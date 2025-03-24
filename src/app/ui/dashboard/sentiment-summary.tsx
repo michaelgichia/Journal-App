@@ -13,7 +13,7 @@ type IProps = {
 export default function SentimentSummaryChart({sentiments, loading}: IProps) {
   const adjustedData = sentiments.map((item) => ({
     id: item.id,
-    value: item.value === 0 ? 0.05 : item.value, // Small value for visibility
+    value: item.value === 0 ? 0.05 : item.value,
   }))
 
   return (
@@ -22,10 +22,9 @@ export default function SentimentSummaryChart({sentiments, loading}: IProps) {
         <Target />
         <h2 className='text-2xl pl-2 font-medium'>Sentiment Summary</h2>
       </div>
-      <div className='h-[400px] w-full flex items-center'>
-        {loading ? (
-          <PieChartSkeleton />
-        ) : (
+      <div className='h-[400px] w-full flex items-center justify-center'>
+        {loading && <PieChartSkeleton />}
+        {!loading && adjustedData.length > 0 && (
           <ResponsivePie
             data={adjustedData}
             margin={{top: 40, right: 80, bottom: 80, left: 80}}
@@ -58,6 +57,11 @@ export default function SentimentSummaryChart({sentiments, loading}: IProps) {
               },
             ]}
           />
+        )}
+        {!loading && adjustedData.length === 0 && (
+          <p className='text-gray-500'>
+            <span>No data available</span>
+          </p>
         )}
       </div>
     </div>

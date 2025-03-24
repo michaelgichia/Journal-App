@@ -1,5 +1,4 @@
 import {CalendarDatum, ResponsiveCalendar} from '@nivo/calendar'
-import {HeatmapSkeleton} from '@/app/ui/skeletons'
 import {Activity} from '@/app/ui/icons'
 
 type IProps = {
@@ -7,7 +6,7 @@ type IProps = {
   loading: boolean
 }
 
-export default function EntriesFrequency({entries, loading}: IProps) {
+export default function EntriesFrequency({entries}: IProps) {
   return (
     <div className='shadow-sm flex flex-col mb-8'>
       <div className='flex pt-4 px-8'>
@@ -15,13 +14,10 @@ export default function EntriesFrequency({entries, loading}: IProps) {
         <h2 className='text-2xl pl-2 font-medium'>Entry frequency</h2>
       </div>
       <div
-        className='h-[200px] w-full flex items-center'
+        className='h-[200px] w-full flex items-center justify-center'
       >
-        {loading ? (
-          <HeatmapSkeleton />
-        ) : (
           <ResponsiveCalendar
-            data={entries}
+            data={entries || []}
             from='2025-01-01'
             to='2025-12-31'
             emptyColor='#eeeeee'
@@ -49,7 +45,6 @@ export default function EntriesFrequency({entries, loading}: IProps) {
               },
             ]}
           />
-        )}
       </div>
     </div>
   )

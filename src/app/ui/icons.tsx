@@ -75,3 +75,7 @@ export const BarChart2 = dynamic(() => import('react-feather').then((mod) => mod
 export const Target = dynamic(() => import('react-feather').then((mod) => mod.Target), {
   ssr: true,
 });
+
+export const CloudOff = dynamic(() => import('react-feather').then((mod) => mod.CloudOff), {
+  ssr: true,
+});
