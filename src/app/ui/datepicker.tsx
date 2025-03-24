@@ -466,7 +466,6 @@ const DatePickerField: React.FC<DatePickerProps> = ({
   }, [])
 
   const handleOtherDatePickerClick = useCallback((event: CustomEvent) => {
-    // @ts-expect-error - name does not exist on type Event.
     if (event.detail.name !== 'date-picker') {
       // Made a constant
       setShowCalendar(false)

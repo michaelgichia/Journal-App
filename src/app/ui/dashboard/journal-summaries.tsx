@@ -1,9 +1,9 @@
 import {SummaryCardsSkeleton} from '@/app/ui/skeletons'
 import SummariesCard from './summaries-card'
-import {Summary} from '@/types/journal'
+import {JournalSummary} from '@/types/journal'
 
 type IProps = {
-  summary: Summary
+  summary: JournalSummary
   loading: boolean
 }
 

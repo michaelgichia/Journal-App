@@ -1,3 +1,6 @@
+import {CalendarDatum} from '@nivo/calendar'
+import { Serie } from '@nivo/line'
+
 export type Journal = {
   id: string
   title: string
@@ -19,6 +22,43 @@ export type Category = {
 export interface DateFilter {
   startAt: string
   endAt: string
+}
+
+export interface JournalSummary {
+  totalEntries: number
+  avgWordCount: number
+  mostUsedCategory: string
+  dominantSentiment?: string
+}
+
+export interface JournalEntry {
+  date: string
+  count: number
+}
+
+export interface CategoryCount {
+  name: string
+  count: number
+}
+
+export interface WordTrend {
+  date: string
+  count: number
+}
+
+export interface SentimentCount {
+  sentiment: string
+  count: number
+}
+
+export interface JournalSummariesResponse {
+  entries: CalendarDatum[]
+  categories: CategoryDistribution[]
+  wordTrends: Serie[]
+  sentiments: EmotionCategory[]
+  summary: JournalSummary
+  isLoading: boolean
+  error: Error | null
 }
 
 export interface Summary {
